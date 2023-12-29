@@ -1,0 +1,49 @@
+@model SimpleCustomCalculator.Models.CalculatorModel
+
+@{
+    Layout = null;
+    var theme = Model.CurrentTheme == "Dark" ? Model.DarkTheme : Model.LightTheme;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.HeaderName</title>
+    <style>
+        body {
+            background-color: @theme.BackgroundColor;
+            color: @theme.TextColor;
+        }
+
+        input, select, button {
+            background-color: @theme.InputBoxColor;
+            color: @theme.TextColor;
+        }
+
+        button {
+            background-color: @theme.ButtonColor;
+        }
+    </style>
+</head>
+<body>
+    <h1>@Model.HeaderName</h1>
+
+    <form asp-action="Index" method="post">
+        <input asp-for="Operand1" type="number" />
+        <select asp-for="Operation">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+        </select>
+        <input asp-for="Operand2" type="number" />
+        <input type="submit" value="Calculate" />
+        <input type="submit" name="submitButton" value="Switch Theme" style="margin-left: 10px;" />
+    </form>
+
+    @if (Model.Result != 0 || ViewData["ResultDisplayed"] as bool? == true)
+    {
+        <p>Result: @Model.Result</p>
+    }
+</body>
+</html>
